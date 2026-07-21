@@ -27,8 +27,6 @@ let currentRotation = 0; // Conserve la rotation totale accumulée
 let previousItems = []; // Historique des objets tirés
 
 // === CONFIGURATION DE LA ROUE ===
-// 12 cases équitablement réparties (360 / 12 = 30 degrés par case).
-// L'ordre ci-dessous sert de référence pour le placement logique.
 const wheelItems = [
     { name: "Dino", emoji: "🦖", angle: 0 },
     { name: "Cube", emoji: "🧊", angle: 30 },
@@ -45,8 +43,6 @@ const wheelItems = [
 ];
 
 // === FONCTIONS UTILES ===
-
-// Tirer un objet aléatoire selon les règles
 function getRandomItem() {
     let availableItems = wheelItems.filter(item => 
         item.name !== "Enveloppe" && !previousItems.includes(item.name)
@@ -60,52 +56,41 @@ btnStart.addEventListener('click', () => {
     homeView.classList.add('hidden');
     setTimeout(() => {
         gameView.classList.remove('hidden');
-    }, 400); // Transition douce
+    }, 400);
 });
 
 // Gérer le clic sur "Faire tourner"
 btnSpin.addEventListener('click', () => {
-    // Désactiver le bouton pendant que ça tourne
     btnSpin.disabled = true;
     
     let targetItem;
     let spinDuration;
     let extraSpins;
 
-    // Définir la cible en fonction du tour
     if (currentTurn === 1 || currentTurn === 2) {
         targetItem = getRandomItem();
         previousItems.push(targetItem.name);
-        extraSpins = 4; // Inertie standard
-        spinDuration = 4; // 4 secondes
+        extraSpins = 4;
+        spinDuration = 4;
     } else {
-        // Tour 3
         targetItem = wheelItems.find(i => i.name === "Enveloppe");
-        extraSpins = 7; // Tourne plus longtemps pour le suspense
-        spinDuration = 7; // 7 secondes
+        extraSpins = 7;
+        spinDuration = 7;
     }
 
-    // CALIBRAGE DE TA ROUE : 
-    // Si l'aiguille tombe un peu à côté de l'enveloppe, modifie ce chiffre (ex: 15, 30, -20, etc.)
-    // jusqu'à ce que ça tombe pile poil au centre de la case enveloppe !
-    const ajustementImage = 30; 
+    const ajustementImage = 30; // Ton ajustement parfait !
 
-    // Calcul de la rotation
     const targetAngle = 360 - targetItem.angle + ajustementImage;
-    
-    // Aligne sur le tour précédent pour ne pas rembobiner
     const currentSpins = Math.floor(currentRotation / 360);
     const newRotation = (currentSpins + extraSpins) * 360 + targetAngle;
 
-    // Appliquer la rotation
     wheelImg.style.transition = `transform ${spinDuration}s cubic-bezier(0.25, 1, 0.25, 1)`;
     wheelImg.style.transform = `rotate(${newRotation}deg)`;
     currentRotation = newRotation;
 
-    // Attendre la fin de la rotation
     setTimeout(() => {
         handleTurnEnd(targetItem);
-    }, spinDuration * 1000 + 300); // Marge de sécurité de 300ms
+    }, spinDuration * 1000 + 300);
 });
 
 // Gérer la fin d'un tour
@@ -130,62 +115,49 @@ function showModal(emoji, title, text) {
 // Fermer la modale et passer au tour suivant
 btnNextTurn.addEventListener('click', () => {
     modalOverlay.classList.add('hidden');
-    
     currentTurn++;
     
     if (currentTurn === 3) {
         btnSpin.textContent = "Découvrir notre secret";
     }
-    
     btnSpin.disabled = false;
 });
 
 // === LOGIQUE DE REVEAL FINAL ===
 function triggerReveal() {
-    // Transition vers l'écran sombre
     gameView.classList.add('hidden');
     
     setTimeout(() => {
         revealView.classList.remove('hidden');
         
-        // Déclencher l'animation d'ouverture de l'enveloppe
         setTimeout(() => {
             envelopeWrapper.classList.add('zoom-in');
             
             setTimeout(() => {
                 envelopeWrapper.classList.add('open');
                 
-                // Lancer les confettis une fois la carte sortie (env. 1.5s après 'open')
                 setTimeout(() => {
                     launchConfetti();
                     replayContainer.classList.remove('hidden');
                 }, 1600);
                 
             }, 1000);
-            
-        }, 500); // Léger délai à l'entrée
-        
+        }, 500);
     }, 800);
 }
 
-// Fonction confettis (utilise canvas-confetti via CDN)
+// Fonction confettis
 function launchConfetti() {
     var duration = 3 * 1000;
     var end = Date.now() + duration;
 
     (function frame() {
         confetti({
-            particleCount: 5,
-            angle: 60,
-            spread: 55,
-            origin: { x: 0 },
+            particleCount: 5, angle: 60, spread: 55, origin: { x: 0 },
             colors: ['#E8C1C5', '#9CAD93', '#D4AF37', '#FDFBF7']
         });
         confetti({
-            particleCount: 5,
-            angle: 120,
-            spread: 55,
-            origin: { x: 1 },
+            particleCount: 5, angle: 120, spread: 55, origin: { x: 1 },
             colors: ['#E8C1C5', '#9CAD93', '#D4AF37', '#FDFBF7']
         });
 
@@ -197,7 +169,6 @@ function launchConfetti() {
 
 // Réinitialiser l'animation
 btnReplay.addEventListener('click', () => {
-    // Reset de l'état
     currentTurn = 1;
     previousItems = [];
     currentRotation = 0;
@@ -207,11 +178,9 @@ btnReplay.addEventListener('click', () => {
     wheelImg.style.transition = 'none';
     wheelImg.style.transform = `rotate(0deg)`;
     
-    // Reset Envelope
     envelopeWrapper.classList.remove('zoom-in', 'open');
     replayContainer.classList.add('hidden');
     
-    // Vues
     revealView.classList.add('hidden');
     setTimeout(() => {
         gameView.classList.remove('hidden');
