@@ -150,9 +150,10 @@ button {
 
 /* ROUE DU JEU */
 .game-card {
-    display: flex;
+   display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 750px; /* Permet à la carte d'être plus large que celle de l'accueil */
 }
 
 .game-card h2 {
@@ -162,13 +163,12 @@ button {
 }
 
 .wheel-container {
-  position: relative;
-    /* On agrandit la roue pour ordinateur */
-    width: 400px;
-    height: 400px;
-    /* Responsive : sur téléphone, elle prendra maximum 85% de la largeur de l'écran */
-    max-width: 85vw;
-    max-height: 85vw;
+position: relative;
+    width: 600px;
+    height: 600px;
+    /* Sur téléphone, elle prendra 90% de la largeur de l'écran maximum */
+    max-width: 90vw;
+    max-height: 90vw;
     margin-bottom: 2rem;
 }
 

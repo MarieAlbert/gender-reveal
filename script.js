@@ -10,7 +10,6 @@ const revealView = document.getElementById('reveal-view');
 const btnStart = document.getElementById('btn-start');
 const btnSpin = document.getElementById('btn-spin');
 const wheelImg = document.getElementById('wheel-img');
-const turnCounterText = document.getElementById('turn-counter');
 
 const modalOverlay = document.getElementById('modal-overlay');
 const modalEmoji = document.getElementById('modal-emoji');
@@ -89,7 +88,7 @@ btnSpin.addEventListener('click', () => {
     // CALIBRAGE DE TA ROUE : 
     // Si l'aiguille tombe un peu à côté de l'enveloppe, modifie ce chiffre (ex: 15, 30, -20, etc.)
     // jusqu'à ce que ça tombe pile poil au centre de la case enveloppe !
-    const ajustementImage = 33; 
+    const ajustementImage = 30; 
 
     // Calcul de la rotation
     const targetAngle = 360 - targetItem.angle + ajustementImage;
@@ -133,7 +132,6 @@ btnNextTurn.addEventListener('click', () => {
     modalOverlay.classList.add('hidden');
     
     currentTurn++;
-    turnCounterText.textContent = `Tour ${currentTurn} / 3`;
     
     if (currentTurn === 3) {
         btnSpin.textContent = "Découvrir notre secret";
@@ -204,7 +202,6 @@ btnReplay.addEventListener('click', () => {
     previousItems = [];
     currentRotation = 0;
     
-    turnCounterText.textContent = `Tour 1 / 3`;
     btnSpin.textContent = "Faire tourner";
     btnSpin.disabled = false;
     wheelImg.style.transition = 'none';
