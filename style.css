@@ -1,0 +1,408 @@
+/* VARIABLES DE COULEURS ET POLICES */
+:root {
+    --color-cream: #FDFBF7;
+    --color-sage: #9CAD93;
+    --color-pink: #E8C1C5;
+    --color-gold: #D4AF37;
+    --color-text: #4A4A4A;
+    --color-dark: #1A1A1A;
+
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Poppins', sans-serif;
+}
+
+/* RESET */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-cream);
+    color: var(--color-text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-heading);
+    color: var(--color-sage);
+    font-weight: 600;
+}
+
+/* GESTION DES VUES */
+.view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+    opacity: 1;
+    visibility: visible;
+    padding: 1rem;
+}
+
+.view.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* CARTES (ACCUEIL & JEU) */
+.card {
+    background: #FFFFFF;
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    border: 1px solid rgba(156, 173, 147, 0.2);
+}
+
+.card h1 {
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+}
+
+.card h1 span {
+    color: var(--color-pink);
+    font-style: italic;
+}
+
+.card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: #666;
+}
+
+.card p.subtitle {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+/* BOUTONS */
+button {
+    font-family: var(--font-body);
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--color-sage);
+    color: white;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(156, 173, 147, 0.4);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #8A9B81;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(156, 173, 147, 0.5);
+}
+
+.btn-primary:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.btn-secondary {
+    background-color: var(--color-pink);
+    color: white;
+    padding: 0.8rem 1.8rem;
+    font-size: 1rem;
+    border-radius: 50px;
+    font-weight: 500;
+}
+
+.btn-secondary:hover {
+    background-color: #DFB2B6;
+}
+
+.btn-secondary.inverse {
+    background-color: transparent;
+    border: 1px solid var(--color-cream);
+    color: var(--color-cream);
+}
+
+.btn-secondary.inverse:hover {
+    background-color: rgba(253, 251, 247, 0.1);
+}
+
+/* ROUE DU JEU */
+.game-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game-card h2 {
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: var(--color-text);
+}
+
+.wheel-container {
+  position: relative;
+    /* On agrandit la roue pour ordinateur */
+    width: 400px;
+    height: 400px;
+    /* Responsive : sur téléphone, elle prendra maximum 85% de la largeur de l'écran */
+    max-width: 85vw;
+    max-height: 85vw;
+    margin-bottom: 2rem;
+}
+
+/* Aiguille au dessus de la roue */
+.pointer {
+  position: absolute;
+    /* On ajuste la flèche pour la grande roue */
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-top: 40px solid var(--color-gold);
+    z-index: 10;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.wheel {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+    /* Transition de base, la durée sera écrasée en JS selon le tour */
+    transition: transform 4s cubic-bezier(0.25, 1, 0.25, 1);
+}
+
+/* MODAL INTERMEDIAIRE */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(253, 251, 247, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.modal-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.modal {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 2px solid var(--color-sage);
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-emoji {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.modal h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+}
+
+.modal p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+/* ECRAN REVEAL */
+.view.dark-mode {
+    background-color: var(--color-dark);
+}
+
+.reveal-container {
+    perspective: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+/* ENVELOPPE CSS */
+.envelope-wrapper {
+    position: relative;
+    width: 320px;
+    height: 200px;
+    transform: scale(0.8);
+    transition: transform 1.5s ease-in-out;
+}
+
+.envelope-wrapper.zoom-in {
+    transform: scale(1.1);
+}
+
+.envelope {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-pink);
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+/* Intérieur arrière de l'enveloppe */
+.envelope-back {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #d1a5aa;
+    z-index: 1;
+}
+
+/* Le rabat du haut */
+.envelope-flap {
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 0;
+    border-left: 160px solid transparent;
+    border-right: 160px solid transparent;
+    border-top: 120px solid var(--color-pink);
+    z-index: 4;
+    transform-origin: top;
+    transition: transform 1s ease-in-out 0.5s;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+}
+
+.envelope-wrapper.open .envelope-flap {
+    transform: rotateX(180deg);
+    z-index: 1; /* Passe derrière la carte une fois ouvert */
+}
+
+/* Les rabats du bas/côtés pour fermer l'enveloppe visuellement */
+.envelope-front {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 0;
+    border-left: 160px solid transparent;
+    border-right: 160px solid transparent;
+    border-bottom: 120px solid #e0b4b8;
+    z-index: 3;
+}
+
+.envelope-front::after {
+    content: '';
+    position: absolute;
+    top: 120px;
+    left: -160px;
+    width: 320px;
+    height: 200px;
+    background: #e0b4b8;
+    clip-path: polygon(0 100%, 50% 0, 100% 100%, 0 100%);
+    transform: translateY(-100%);
+}
+
+/* La carte à l'intérieur */
+.envelope-card {
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+    right: 10px;
+    height: 260px;
+    background: var(--color-cream);
+    z-index: 2;
+    border-radius: 10px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    
+    /* NOUVEAU : On cache la carte totalement au début */
+    opacity: 0; 
+    
+    /* On ajoute l'animation de l'opacité juste avant que la carte ne monte */
+    transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.1) 1.5s, opacity 0.2s ease 1.4s;
+}
+
+.envelope-wrapper.open .envelope-card {
+   transform: translateY(-160px);
+    /* NOUVEAU : Elle redevient visible quand elle sort */
+    opacity: 1; 
+    z-index: 5;
+}
+
+.envelope-card h2 {
+    color: var(--color-pink);
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+}
+
+.envelope-card p {
+    font-size: 1rem;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+}
+
+.envelope-card .thanks {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--color-sage);
+}
+
+.envelope-card .signature {
+    margin-top: 0.5rem;
+    font-family: var(--font-heading);
+    color: var(--color-gold);
+    font-size: 1.2rem;
+}
+
+/* Bouton rejouer */
+.replay-container {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    transition: opacity 1s ease;
+}
+
+/* ANIMATIONS CLES */
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    .card h1 { font-size: 2.2rem; }
+    .wheel-container { width: 240px; height: 240px; }
+    .envelope-wrapper { transform: scale(0.9); }
+    .envelope-wrapper.zoom-in { transform: scale(1); }
+}
