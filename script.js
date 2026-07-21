@@ -26,20 +26,20 @@ let currentTurn = 1;
 let currentRotation = 0; // Conserve la rotation totale accumulée
 let previousItems = []; // Historique des objets tirés
 
-// === CONFIGURATION DE LA ROUE ===
+// === CONFIGURATION DE LA ROUE (Calibrage parfait sur l'image) ===
 const wheelItems = [
-    { name: "Dino", emoji: "🦖", angle: 0 },
-    { name: "Cube", emoji: "🧊", angle: 30 },
-    { name: "Ballon", emoji: "🎈", angle: 60 },
-    { name: "Licorne", emoji: "🦄", angle: 90 },
-    { name: "Noeud", emoji: "🎀", angle: 120 },
-    { name: "Arc-en-ciel", emoji: "🌈", angle: 150 },
-    { name: "Chaussons", emoji: "🩰", angle: 180 },
-    { name: "Voiture", emoji: "🚗", angle: 210 },
-    { name: "Biberon", emoji: "🍼", angle: 240 },
-    { name: "Ours", emoji: "🧸", angle: 270 },
-    { name: "Étoile", emoji: "⭐", angle: 300 },
-    { name: "Enveloppe", emoji: "✉️", angle: 330 }
+    { name: "Cube", emoji: "🧊", angle: 15 },
+    { name: "Ballon", emoji: "🎈", angle: 45 },
+    { name: "Licorne", emoji: "🦄", angle: 75 },
+    { name: "Noeud", emoji: "🎀", angle: 105 },
+    { name: "Arc-en-ciel", emoji: "🌈", angle: 135 },
+    { name: "Voiture", emoji: "🚗", angle: 165 },
+    { name: "Chaussons", emoji: "🩰", angle: 195 },
+    { name: "Biberon", emoji: "🍼", angle: 225 },
+    { name: "Ours", emoji: "🧸", angle: 255 },
+    { name: "Étoile", emoji: "⭐", angle: 285 },
+    { name: "Enveloppe", emoji: "✉️", angle: 315 },
+    { name: "Dino", emoji: "🦖", angle: 345 }
 ];
 
 // === FONCTIONS UTILES ===
@@ -78,7 +78,8 @@ btnSpin.addEventListener('click', () => {
         spinDuration = 7;
     }
 
-    const ajustementImage = 45; // Ton ajustement parfait !
+    // Plus besoin d'ajustement, les angles sont parfaits !
+    const ajustementImage = 0; 
 
     const targetAngle = 360 - targetItem.angle + ajustementImage;
     const currentSpins = Math.floor(currentRotation / 360);
@@ -109,13 +110,13 @@ function showModal(emoji, title, text) {
     modalEmoji.textContent = emoji;
     modalTitle.textContent = title;
     modalText.textContent = text;
-    btnNextTurn.disabled = false; // BOUCLIER : On réactive le bouton "Continuer" quand la modale s'affiche
+    btnNextTurn.disabled = false; // BOUCLIER 
     modalOverlay.classList.remove('hidden');
 }
 
 // Fermer la modale et passer au tour suivant
 btnNextTurn.addEventListener('click', () => {
-    btnNextTurn.disabled = true; // BOUCLIER ANTI DOUBLE-CLIC
+    btnNextTurn.disabled = true; // BOUCLIER 
     modalOverlay.classList.add('hidden');
     
     currentTurn++;
