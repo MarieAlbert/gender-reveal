@@ -78,7 +78,7 @@ btnSpin.addEventListener('click', () => {
         spinDuration = 7;
     }
 
-    const ajustementImage = 30; // Ton ajustement parfait !
+    const ajustementImage = 45; // Ton ajustement parfait !
 
     const targetAngle = 360 - targetItem.angle + ajustementImage;
     const currentSpins = Math.floor(currentRotation / 360);
