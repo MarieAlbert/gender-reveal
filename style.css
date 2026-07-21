@@ -153,7 +153,9 @@ button {
    display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 750px; /* Permet à la carte d'être plus large que celle de l'accueil */
+    max-width: 950px; /* On passe la limite à 950 pixels */
+    width: 100%;
+    padding: 3rem 1rem; /* On réduit un peu les marges internes pour gagner de la place */
 }
 
 .game-card h2 {
@@ -164,26 +166,24 @@ button {
 
 .wheel-container {
 position: relative;
-    width: 600px;
-    height: 600px;
-    /* Sur téléphone, elle prendra 90% de la largeur de l'écran maximum */
-    max-width: 90vw;
-    max-height: 90vw;
+    width: 800px;  /* Taille idéale sur ordinateur */
+    height: 800px;
+    max-width: 95vw; /* Sur téléphone, elle prendra 95% de la largeur de l'écran */
+    max-height: 95vw;
     margin-bottom: 2rem;
 }
 
 /* Aiguille au dessus de la roue */
 .pointer {
-  position: absolute;
-    /* On ajuste la flèche pour la grande roue */
-    top: -20px;
+position: absolute;
+    top: -25px;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 18px solid transparent;
-    border-right: 18px solid transparent;
-    border-top: 40px solid var(--color-gold);
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 50px solid var(--color-gold);
     z-index: 10;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
 }

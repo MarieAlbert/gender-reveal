@@ -109,12 +109,15 @@ function showModal(emoji, title, text) {
     modalEmoji.textContent = emoji;
     modalTitle.textContent = title;
     modalText.textContent = text;
+    btnNextTurn.disabled = false; // BOUCLIER : On réactive le bouton "Continuer" quand la modale s'affiche
     modalOverlay.classList.remove('hidden');
 }
 
 // Fermer la modale et passer au tour suivant
 btnNextTurn.addEventListener('click', () => {
+    btnNextTurn.disabled = true; // BOUCLIER ANTI DOUBLE-CLIC
     modalOverlay.classList.add('hidden');
+    
     currentTurn++;
     
     if (currentTurn === 3) {
