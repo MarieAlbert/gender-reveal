@@ -119,7 +119,10 @@ btnNextTurn.addEventListener('click', () => {
     
     if (currentTurn === 3) {
         btnSpin.textContent = "Découvrir notre secret";
+    } else {
+        btnSpin.textContent = "Faire tourner";
     }
+    
     btnSpin.disabled = false;
 });
 
