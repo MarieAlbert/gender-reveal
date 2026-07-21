@@ -26,7 +26,7 @@ let currentTurn = 1;
 let currentRotation = 0; // Conserve la rotation totale accumulée
 let previousItems = []; // Historique des objets tirés
 
-// === CONFIGURATION DE LA ROUE (Calibrage ultime) ===
+// === CONFIGURATION DE LA ROUE ===
 const wheelItems = [
     { name: "Cube", emoji: "🧊", angle: 0 },
     { name: "Ballon", emoji: "🎈", angle: 30 },
@@ -78,11 +78,17 @@ btnSpin.addEventListener('click', () => {
         spinDuration = 7;
     }
 
-    const ajustementImage = 0; 
+    // NOUVEAU CALCUL ULTRA PRÉCIS (Méthode Delta)
+    const currentAngleModulo = currentRotation % 360;
+    const targetAngle = (360 - targetItem.angle) % 360;
+    
+    let delta = targetAngle - currentAngleModulo;
+    if (delta <= 0) {
+        delta += 360; // Force la roue à toujours tourner vers l'avant
+    }
 
-    const targetAngle = 360 - targetItem.angle + ajustementImage;
-    const currentSpins = Math.floor(currentRotation / 360);
-    const newRotation = (currentSpins + extraSpins) * 360 + targetAngle;
+    // Nouvelle rotation ajoutée avec une précision mathématique parfaite
+    const newRotation = currentRotation + (extraSpins * 360) + delta;
 
     wheelImg.style.transition = `transform ${spinDuration}s cubic-bezier(0.25, 1, 0.25, 1)`;
     wheelImg.style.transform = `rotate(${newRotation}deg)`;
